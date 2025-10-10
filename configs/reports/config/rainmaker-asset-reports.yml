@@ -968,7 +968,11 @@ ReportDefinitions:
         a.additionaldetails->>'improvementCost' AS improvementcost,
         (
             COALESCE(a.originalbookvalue, 0) + 
-            COALESCE(NULLIF(a.additionaldetails->>'improvementCost','')::numeric, 0)
+            CASE 
+                WHEN a.additionaldetails->>'improvementCost' IS NULL OR a.additionaldetails->>'improvementCost' = '' 
+                THEN 0 
+                ELSE (a.additionaldetails->>'improvementCost')::numeric 
+            END
         ) AS totalcost
       FROM 
         eg_asset_assetdetails a
