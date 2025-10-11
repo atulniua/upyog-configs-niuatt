@@ -776,6 +776,12 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+      - name: category
+        label: Category
+        type: string
+        source: asset
+        total: false
+        showColumn: true
       - name: location
         label: Location
         type: string
@@ -805,31 +811,37 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: isitfenced
         label: Is it Fenced
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: anyimprovements
         label: Any Improvements
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: assetusage
         label: Asset Usage
         type: string
         source: asset
         total: false
         showColumn: true
+      - name: lifeofasset
+        label: Life of Asset
+        type: string
+        source: asset
+        total: false
+        showColumn: true    
       - name: depriciationmethod
         label: Depreciation Method
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: modeofpossessionoracquisition
         label: Mode of Acquisition
         type: string
@@ -908,8 +920,14 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+      - name: sourceoffinance
+        label: Source of Finance
+        type: string
+        source: asset
+        total: false
+        showColumn: true
       - name: totalcost
-        label: Total Cost
+        label: Total cost
         type: number
         source: asset
         total: true
@@ -931,6 +949,7 @@ ReportDefinitions:
       SELECT 
         a.applicationno as assetid,
         a.name AS assetname,
+        a.category AS category,
         CONCAT(
             COALESCE(addr.addressline1, ''), ' ', 
             COALESCE(addr.addressline2, ''), ' ', 
@@ -966,14 +985,9 @@ ReportDefinitions:
              ELSE NULL END AS dateofdeedexecution,
         a.acquisitioncost AS costofacquiringland,
         a.additionaldetails->>'improvementCost' AS improvementcost,
-        (
-            COALESCE(a.originalbookvalue, 0) + 
-            CASE 
-                WHEN a.additionaldetails->>'improvementCost' IS NULL OR a.additionaldetails->>'improvementCost' = '' 
-                THEN 0 
-                ELSE (a.additionaldetails->>'improvementCost')::numeric 
-            END
-        ) AS totalcost
+        a.sourceoffinance AS sourceoffinance,
+        a.lifeofasset AS lifeofasset,
+        (COALESCE(a.originalbookvalue, 0) + COALESCE(NULLIF(a.additionaldetails->>'improvementCost', '')::numeric, 0)) AS totalcost
       FROM 
         eg_asset_assetdetails a
       LEFT JOIN 
@@ -992,6 +1006,12 @@ ReportDefinitions:
         type: string
         source: asset
         showColumn: true
+      - name: lifeofasset
+        label: Life of Asset
+        type: string
+        source: asset
+        total: false
+        showColumn: true  
       - name: location
         label: Location
         type: string
@@ -1122,6 +1142,7 @@ ReportDefinitions:
     query: >
       SELECT
         b.applicationno AS assetid,
+        b.category AS category,
         CONCAT(
             COALESCE(addr.addressline1, ''), ' ',
             COALESCE(addr.addressline2, ''), ' ',
@@ -1152,6 +1173,8 @@ ReportDefinitions:
         b.additionaldetails->>'fromWhomDeedTaken' AS from_whom_acquired,
         b.additionaldetails->'modeOfPossessionOrAcquisition'->>'code' AS modeofacquisition,
         b.additionaldetails->'assetUsage'->>'code' AS current_use,
+        b.sourceoffinance AS sourceoffinance,
+        b.lifeofasset AS lifeofasset,
         COALESCE(NULLIF(b.additionaldetails->>'marketRate','')::numeric, 0) AS market_value,
         b.additionaldetails->>'marketRateCircle' AS market_rate_circle,
         b.additionaldetails->>'marketRateEvaluation' AS market_rate_evaluation
@@ -1161,3 +1184,148 @@ ReportDefinitions:
         eg_asset_addressdetails addr ON b.id = addr.asset_id
       WHERE
         b.parentcategory = 'BUILDING'
+
+  - reportName: PlantsMachineryReport
+    decryptionPathId: ObpsDailyCollectionReport
+    summary: Plants and Machinery Assets Report
+    version: 1.0.0
+    moduleName: rainmaker-asset
+    sourceColumns:
+      - name: assetid
+        label: Asset ID
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: assetname
+        label: Asset Name
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: category
+        label: Category
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: location
+        label: Location
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: capacity
+        label: Capacity
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: shiftsused
+        label: Shifts Used
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: assignableassets
+        label: Assignable Assets
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: modeofacquisition
+        label: Mode of Acquisition
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: depriciationmethod
+        label: Depreciation Method
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: depriciationrate
+        label: Depreciation Rate
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: yearofcommencement
+        label: Year of Commencement
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: marketratecircle
+        label: Market Rate Circle
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: marketrateevaluation
+        label: Market Rate Evaluation
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: lifeofasset
+        label: Life of Asset
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: sourceoffinance
+        label: Source of Finance
+        type: string
+        source: asset
+        total: false
+        showColumn: true
+      - name: originalbookvalue
+        label: Original Book Value
+        type: number
+        source: asset
+        total: true
+        showColumn: true
+    searchParams:
+      - name: fromDate
+        label: FromDate
+        type: epoch
+        source: asset
+        isMandatory: false
+        searchClause: AND a.createdtime &gt;= $fromDate
+      - name: toDate
+        label: ToDate
+        type: epoch
+        source: asset
+        isMandatory: false
+        searchClause: AND a.createdtime &lt;= $toDate
+    query: >
+      SELECT 
+        a.applicationno as assetid,
+        a.name AS assetname,
+        a.category AS category,
+        CONCAT(
+            COALESCE(addr.addressline1, ''), ' ', 
+            COALESCE(addr.addressline2, ''), ' ', 
+            COALESCE(addr.city, ''), ' ', 
+            COALESCE(addr.pincode, '')
+        ) AS location,
+        a.additionaldetails->>'capacity' AS capacity,
+        a.additionaldetails->>'shiftsUsed' AS shiftsused,
+        a.additionaldetails->'assignableAssets'->>'value' AS assignableassets,
+        a.additionaldetails->'modeOfPossessionOrAcquisition'->>'value' AS modeofacquisition,
+        a.additionaldetails->'depriciationMethod'->>'value' AS depriciationmethod,
+        a.additionaldetails->>'depriciationRate' AS depriciationrate,
+        a.additionaldetails->>'yearOfCommencement' AS yearofcommencement,
+        a.additionaldetails->>'marketRateCircle' AS marketratecircle,
+        a.additionaldetails->>'marketRateEvaluation' AS marketrateevaluation,
+        a.lifeofasset AS lifeofasset,
+        a.sourceoffinance AS sourceoffinance,
+        a.originalbookvalue AS originalbookvalue
+      FROM 
+        eg_asset_assetdetails a
+      LEFT JOIN 
+        eg_asset_addressdetails addr ON a.id = addr.asset_id
+      WHERE 
+        a.parentcategory = 'PLANTS_MACHINERY'
