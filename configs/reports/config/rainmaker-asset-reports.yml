@@ -782,6 +782,7 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: location
         label: Location
         type: string
@@ -800,12 +801,14 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: landstatus
         label: Land Status
         type: string
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: anybuiltup
         label: Any Built-up
         type: string
@@ -830,6 +833,7 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: lifeofasset
         label: Life of Asset
         type: string
@@ -842,12 +846,14 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: false
+        isLocalisationRequired: true
       - name: modeofpossessionoracquisition
         label: Mode of Acquisition
         type: string
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: fromwhomacquired
         label: From Whom Acquired
         type: string
@@ -926,6 +932,7 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: totalcost
         label: Total cost
         type: number
@@ -987,7 +994,7 @@ ReportDefinitions:
         a.additionaldetails->>'improvementCost' AS improvementcost,
         a.sourceoffinance AS sourceoffinance,
         a.lifeofasset AS lifeofasset,
-        (COALESCE(a.originalbookvalue, 0) + COALESCE(NULLIF(a.additionaldetails->>'improvementCost', '')::numeric, 0)) AS totalcost
+        a.originalbookvalue AS totalcost
       FROM 
         eg_asset_assetdetails a
       LEFT JOIN 
@@ -1006,12 +1013,12 @@ ReportDefinitions:
         type: string
         source: asset
         showColumn: true
-      - name: lifeofasset
-        label: Life of Asset
+      - name: category
+        label: Category
         type: string
         source: asset
-        total: false
-        showColumn: true  
+        showColumn: true
+        isLocalisationRequired: true
       - name: location
         label: Location
         type: string
@@ -1073,23 +1080,12 @@ ReportDefinitions:
         type: string
         source: asset
         showColumn: true
-      - name: improvement_cost
-        label: Improvement Cost
-        type: number
-        source: asset
-        total: true
-        showColumn: true
-      - name: total_cost
-        label: Total Cost
-        type: number
-        source: asset
-        total: true
-        showColumn: true
       - name: depreciation_method
         label: Depreciation Method
         type: string
         source: asset
         showColumn: true
+        isLocalisationRequired: true
       - name: depriciation_rate
         label: Depreciation Rate
         type: string
@@ -1105,8 +1101,21 @@ ReportDefinitions:
         type: string
         source: asset
         showColumn: true
+        isLocalisationRequired: true
       - name: current_use
         label: Asset Usage
+        type: string
+        source: asset
+        showColumn: true
+        isLocalisationRequired: true
+      - name: sourceoffinance
+        label: Source of Finance
+        type: string
+        source: asset
+        showColumn: true
+        isLocalisationRequired: true
+      - name: lifeofasset
+        label: Life of Asset
         type: string
         source: asset
         showColumn: true
@@ -1116,6 +1125,18 @@ ReportDefinitions:
         source: asset
         total: true
         showColumn: true
+      - name: improvement_cost
+        label: Improvement Cost
+        type: number
+        source: asset
+        total: true
+        showColumn: true
+      - name: total_cost
+        label: Total Cost
+        type: number
+        source: asset
+        total: true
+        showColumn: true  
       - name: market_rate_circle
         label: Market Rate Circle
         type: string
@@ -1125,7 +1146,7 @@ ReportDefinitions:
         label: Market Rate Evaluation
         type: string
         source: asset
-        showColumn: true
+        showColumn: true  
     searchParams:
       - name: fromDate
         label: From Date
@@ -1209,6 +1230,7 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: location
         label: Location
         type: string
@@ -1233,18 +1255,21 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: modeofacquisition
         label: Mode of Acquisition
         type: string
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: depriciationmethod
         label: Depreciation Method
         type: string
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: depriciationrate
         label: Depreciation Rate
         type: string
@@ -1281,8 +1306,9 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+        isLocalisationRequired: true
       - name: originalbookvalue
-        label: Original Book Value
+        label: Total Cost
         type: number
         source: asset
         total: true
@@ -1293,13 +1319,13 @@ ReportDefinitions:
         type: epoch
         source: asset
         isMandatory: false
-        searchClause: AND a.createdtime &gt;= $fromDate
+        searchClause: AND a.createdtime >= $fromDate
       - name: toDate
         label: ToDate
         type: epoch
         source: asset
         isMandatory: false
-        searchClause: AND a.createdtime &lt;= $toDate
+        searchClause: AND a.createdtime <= $toDate
     query: >
       SELECT 
         a.applicationno as assetid,
