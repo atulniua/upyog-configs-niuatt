@@ -114,7 +114,7 @@ ReportDefinitions:
         b.parentcategory AS parentcategory, 
         b.lifeofasset AS lifeofasset, 
         b.subcategory AS subcategory,
-        b.name AS Assetname, 
+        INITCAP(b.name) AS Assetname, 
         b.status AS AssetStatus,
         CONCAT('COMMON_MASTERS_DEPARTMENT_', b.department) AS Department,
         b.financialyear AS FinancialYear, 
@@ -255,7 +255,7 @@ ReportDefinitions:
         b.parentcategory AS parentcategory, 
         b.subcategory AS subcategory,
         b.lifeofasset AS lifeofasset, 
-        b.name AS Assetname, 
+        INITCAP(b.name) AS Assetname, 
         b.status AS AssetStatus,
         CONCAT('COMMON_MASTERS_DEPARTMENT_', b.department) AS Department,
         b.financialyear AS FinancialYear, 
@@ -545,10 +545,10 @@ ReportDefinitions:
         b.tenantid AS tenantid,
         CONCAT('COMMON_MASTERS_DEPARTMENT_', b.department) AS department,
         n.amount_received as amountreceived,
-        n.reason_for_disposal as reasonfordisposal,
-        n.comments as comments,
+        INITCAP(n.reason_for_disposal) as reasonfordisposal,
+        INITCAP(n.comments) as comments,
         n.life_of_asset as lifeofasset,
-        n.purchaser_name as purchasername,
+        INITCAP(n.purchaser_name) as purchasername,
         n.disposal_date as disposaldate
         FROM 
         eg_asset_assetdetails b, eg_asset_disposal_details n where b.id=n.asset_id
@@ -800,14 +800,14 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: landstatus
         label: Land Status
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: anybuiltup
         label: Any Built-up
@@ -846,26 +846,26 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: false
-        isLocalisationRequired: true
+        isLocalisationRequired: false
       - name: modeofpossessionoracquisition
         label: Mode of Acquisition
         type: string
         source: asset
         total: false
         showColumn: true
-        isLocalisationRequired: true
+        isLocalisationRequired: false
       - name: fromwhomacquired
         label: From Whom Acquired
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: valueadded
         label: Value Added
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: marketratecircle
         label: Market Rate Circle
         type: string
@@ -883,13 +883,13 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: depriciationrate
         label: Depreciation Rate
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: acquistiondate
         label: Acquisition Date
         type: epoch
@@ -901,19 +901,19 @@ ReportDefinitions:
         type: epoch
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: dateofpossession
         label: Date of Possession
         type: epoch
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: dateofdeedexecution
         label: Date of Deed Execution
         type: epoch
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: costofacquiringland
         label: Cost of Acquiring Land
         type: number
@@ -931,7 +931,7 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: totalcost
         label: Total cost
@@ -939,23 +939,54 @@ ReportDefinitions:
         source: asset
         total: true
         showColumn: true
+      - name: department
+        label: Department
+        type: string
+        source: asset
+        total: false
+        showColumn: false
+        isLocalisationRequired: true
     searchParams:
-      - name: fromDate
-        label: FromDate
-        type: epoch
+      - name: applicationno
+        label: Asset Unique ID
+        type: string
         source: asset
         isMandatory: false
-        searchClause: AND a.createdtime >= $fromDate
-      - name: toDate
-        label: ToDate
-        type: epoch
+        searchClause: AND a.applicationno = $applicationno
+      - name: assetname
+        label: Asset Name
+        type: string
         source: asset
         isMandatory: false
-        searchClause: AND a.createdtime <= $toDate
+        searchClause: AND a.name = $assetname
+      - name: category
+        label: Category
+        type: singlevaluelist
+        pattern: 'list://COMMERCIAL:Commercial,OPEN_SPACES:Open Spaces,PARKS:Parks,PARKS_AND_GARDENS:Parks and Gardens,PLAYGROUND:Playground,VACANT_LAND:Vacant Land'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND a.category = $category
+      - name: AssetStatus
+        label: Asset Status
+        type: singlevaluelist
+        pattern: 'list://REJECTED:Rejected,APPROVED:Approved,INITIATED:Initiated,VERIFIED:Verified'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND a.status = $AssetStatus
+      - name: Department
+        label: Department
+        type: singlevaluelist
+        pattern: 'list://COMMON_MASTERS_DEPARTMENT_DEPT_1:Street Lights,DEPT_2:Building & Roads,DEPT_3:Health & Sanitation,DEPT_4:Operation & Maintenance,DEPT_5:Horticulture,DEPT_6:Building Branch,DEPT_7:Citizen service desk,DEPT_8:Complaint Cell,DEPT_9:Executive Branch,DEPT_10:Others,DEPT_11:Project Branch,DEPT_12:Birth and Death Branch,DEPT_13:Tax Branch,DEPT_14:Civil,DEPT_15:Engineering Branch (O&M - W&S),DEPT_16:Health Branch,DEPT_17:Tehbazri Branch,DEPT_18:Engineering Branch,DEPT_19:Advertisement Branch,DEPT_21:Sanitation Branch,DEPT_24:Fire Brigade Department,DEPT_25:Accounts Branch,DEPT_33:Property Tax Branch,DEPT_34:Establishment Branch,DEPT_35:Works Branch,DEPT_38:General Branch,DEPT_53:Architect & Planning (A&P) Branch DEPT,DEPT_54:Estate Branch,DEPT_55:Veterinary public health office (V.P.H.O.),DEPT_56:Law Branch,TRADE_BRANCH:Trade License Branch,DEPT_LG:Legal Branch,AGENDA_BRANCH:Agenda Branch,CARETAKER_BRANCH:Caretaker Branch,IT_BRANCH:IT Branch,DEPT_TP:Townplanning,DEPT_57:Tender Cell'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND a.department = $Department
     query: >
       SELECT 
         a.applicationno as assetid,
-        a.name AS assetname,
+        INITCAP(a.name) AS assetname,
         a.category AS category,
         CONCAT(
             COALESCE(addr.addressline1, ''), ' ', 
@@ -994,7 +1025,8 @@ ReportDefinitions:
         a.additionaldetails->>'improvementCost' AS improvementcost,
         a.sourceoffinance AS sourceoffinance,
         a.lifeofasset AS lifeofasset,
-        a.originalbookvalue AS totalcost
+        a.originalbookvalue AS totalcost,
+        CONCAT('COMMON_MASTERS_DEPARTMENT_', a.department) AS department
       FROM 
         eg_asset_assetdetails a
       LEFT JOIN 
@@ -1013,6 +1045,11 @@ ReportDefinitions:
         type: string
         source: asset
         showColumn: true
+      - name: assetname
+        label: Asset Name
+        type: string
+        source: asset
+        showColumn: true
       - name: category
         label: Category
         type: string
@@ -1028,17 +1065,17 @@ ReportDefinitions:
         label: Length
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
       - name: breadth
         label: Breadth
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
       - name: height
         label: Height
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
       - name: floors
         label: No of floors
         type: string
@@ -1058,44 +1095,38 @@ ReportDefinitions:
         label: Date of Possession
         type: epoch
         source: asset
-        showColumn: true
+        showColumn: false
       - name: dateofconstruction
         label: Date of Construction
         type: epoch
         source: asset
-        showColumn: true
+        showColumn: false
       - name: improvement_date
         label: Improvement Date
         type: epoch
         source: asset
-        showColumn: true
-      - name: construction_cost
-        label: Construction Cost
-        type: number
-        source: asset
-        total: true
-        showColumn: true
+        showColumn: false
       - name: improvement
         label: Any Improvements
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
       - name: depreciation_method
         label: Depreciation Method
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: depriciation_rate
         label: Depreciation Rate
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
       - name: from_whom_acquired
         label: From Whom Deed Taken
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
       - name: modeofacquisition
         label: Mode of Acquisition
         type: string
@@ -1112,7 +1143,7 @@ ReportDefinitions:
         label: Source of Finance
         type: string
         source: asset
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: lifeofasset
         label: Life of Asset
@@ -1125,18 +1156,18 @@ ReportDefinitions:
         source: asset
         total: true
         showColumn: true
+      - name: construction_cost
+        label: Construction Cost
+        type: number
+        source: asset
+        total: true
+        showColumn: true        
       - name: improvement_cost
         label: Improvement Cost
         type: number
         source: asset
         total: true
         showColumn: true
-      - name: total_cost
-        label: Total Cost
-        type: number
-        source: asset
-        total: true
-        showColumn: true  
       - name: market_rate_circle
         label: Market Rate Circle
         type: string
@@ -1146,23 +1177,61 @@ ReportDefinitions:
         label: Market Rate Evaluation
         type: string
         source: asset
-        showColumn: true  
+        showColumn: true        
+      - name: total_cost
+        label: Total Cost
+        type: number
+        source: asset
+        total: true
+        showColumn: true 
+      - name: department
+        label: Department
+        type: string
+        source: asset
+        total: false
+        showColumn: false
+        isLocalisationRequired: true  
     searchParams:
-      - name: fromDate
-        label: From Date
-        type: epoch
+      - name: applicationno
+        label: Asset Unique ID
+        type: string
         source: asset
         isMandatory: false
-        searchClause: AND b.createdtime >= $fromDate
-      - name: toDate
-        label: To Date
-        type: epoch
+        searchClause: AND b.applicationno = $applicationno
+      - name: assetname
+        label: Asset Name
+        type: string
         source: asset
         isMandatory: false
-        searchClause: AND b.createdtime <= $toDate
+        searchClause: AND b.name = $assetname
+      - name: category
+        label: Category
+        type: singlevaluelist
+        pattern: 'list://ADMINISTRATION:Administration,COMMERCIAL:Commercial,EDUCATION:Education,HEALTH:Health,INDUSTRIAL:Industrial,PUBLIC_FACILITIES:Public Facilities,RECREATION:Recreation,RESIDENTIAL:Residential,SERVICES:Services,STORAGE:Storage'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND b.category = $category
+      - name: AssetStatus
+        label: Asset Status
+        type: singlevaluelist
+        pattern: 'list://REJECTED:Rejected,APPROVED:Approved,INITIATED:Initiated,VERIFIED:Verified'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND b.status = $AssetStatus
+      - name: Department
+        label: Department
+        type: singlevaluelist
+        pattern: 'list://DEPT_1:Street Lights,DEPT_2:Building & Roads,DEPT_3:Health & Sanitation,DEPT_4:Operation & Maintenance,DEPT_5:Horticulture,DEPT_6:Building Branch,DEPT_7:Citizen service desk,DEPT_8:Complaint Cell,DEPT_9:Executive Branch,DEPT_10:Others,DEPT_11:Project Branch,DEPT_12:Birth and Death Branch,DEPT_13:Tax Branch,DEPT_14:Civil,DEPT_15:Engineering Branch (O&M - W&S),DEPT_16:Health Branch,DEPT_17:Tehbazri Branch,DEPT_18:Engineering Branch,DEPT_19:Advertisement Branch,DEPT_21:Sanitation Branch,DEPT_24:Fire Brigade Department,DEPT_25:Accounts Branch,DEPT_33:Property Tax Branch,DEPT_34:Establishment Branch,DEPT_35:Works Branch,DEPT_38:General Branch,DEPT_53:Architect & Planning (A&P) Branch DEPT,DEPT_54:Estate Branch,DEPT_55:Veterinary public health office (V.P.H.O.),DEPT_56:Law Branch,TRADE_BRANCH:Trade License Branch,DEPT_LG:Legal Branch,AGENDA_BRANCH:Agenda Branch,CARETAKER_BRANCH:Caretaker Branch,IT_BRANCH:IT Branch,DEPT_TP:Townplanning,DEPT_57:Tender Cell'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND (b.department = $Department OR CONCAT('COMMON_MASTERS_DEPARTMENT_', b.department) = $Department)
     query: >
       SELECT
         b.applicationno AS assetid,
+        INITCAP(b.name) AS assetname,
         b.category AS category,
         CONCAT(
             COALESCE(addr.addressline1, ''), ' ',
@@ -1198,7 +1267,8 @@ ReportDefinitions:
         b.lifeofasset AS lifeofasset,
         COALESCE(NULLIF(b.additionaldetails->>'marketRate','')::numeric, 0) AS market_value,
         b.additionaldetails->>'marketRateCircle' AS market_rate_circle,
-        b.additionaldetails->>'marketRateEvaluation' AS market_rate_evaluation
+        b.additionaldetails->>'marketRateEvaluation' AS market_rate_evaluation,
+        CONCAT('COMMON_MASTERS_DEPARTMENT_', b.department) AS department
       FROM
         eg_asset_assetdetails b
       LEFT JOIN
@@ -1237,6 +1307,12 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
+      - name: lifeofasset
+        label: Life of Asset
+        type: string
+        source: asset
+        total: false
+        showColumn: true        
       - name: capacity
         label: Capacity
         type: string
@@ -1254,7 +1330,7 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: modeofacquisition
         label: Mode of Acquisition
@@ -1268,14 +1344,14 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
         isLocalisationRequired: true
       - name: depriciationrate
         label: Depreciation Rate
         type: string
         source: asset
         total: false
-        showColumn: true
+        showColumn: false
       - name: yearofcommencement
         label: Year of Commencement
         type: string
@@ -1294,12 +1370,6 @@ ReportDefinitions:
         source: asset
         total: false
         showColumn: true
-      - name: lifeofasset
-        label: Life of Asset
-        type: string
-        source: asset
-        total: false
-        showColumn: true
       - name: sourceoffinance
         label: Source of Finance
         type: string
@@ -1313,23 +1383,46 @@ ReportDefinitions:
         source: asset
         total: true
         showColumn: true
+      - name: department
+        label: Department
+        type: string
+        source: asset
+        total: false
+        showColumn: false
+        isLocalisationRequired: true
     searchParams:
-      - name: fromDate
-        label: FromDate
-        type: epoch
+      - name: applicationno
+        label: Asset Unique ID
+        type: string
         source: asset
         isMandatory: false
-        searchClause: AND a.createdtime >= $fromDate
-      - name: toDate
-        label: ToDate
-        type: epoch
+        searchClause: AND a.applicationno = $applicationno
+      - name: assetname
+        label: Asset Name
+        type: string
         source: asset
         isMandatory: false
-        searchClause: AND a.createdtime <= $toDate
+        searchClause: AND a.name = $assetname
+      - name: AssetStatus
+        label: Asset Status
+        type: singlevaluelist
+        pattern: 'list://REJECTED:Rejected,APPROVED:Approved,INITIATED:Initiated,VERIFIED:Verified'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND a.status = $AssetStatus
+      - name: Department
+        label: Department
+        type: singlevaluelist
+        pattern: 'list://DEPT_1:Street Lights,DEPT_2:Building & Roads,DEPT_3:Health & Sanitation,DEPT_4:Operation & Maintenance,DEPT_5:Horticulture,DEPT_6:Building Branch,DEPT_7:Citizen service desk,DEPT_8:Complaint Cell,DEPT_9:Executive Branch,DEPT_10:Others,DEPT_11:Project Branch,DEPT_12:Birth and Death Branch,DEPT_13:Tax Branch,DEPT_14:Civil,DEPT_15:Engineering Branch (O&M - W&S),DEPT_16:Health Branch,DEPT_17:Tehbazri Branch,DEPT_18:Engineering Branch,DEPT_19:Advertisement Branch,DEPT_21:Sanitation Branch,DEPT_24:Fire Brigade Department,DEPT_25:Accounts Branch,DEPT_33:Property Tax Branch,DEPT_34:Establishment Branch,DEPT_35:Works Branch,DEPT_38:General Branch,DEPT_53:Architect & Planning (A&P) Branch DEPT,DEPT_54:Estate Branch,DEPT_55:Veterinary public health office (V.P.H.O.),DEPT_56:Law Branch,TRADE_BRANCH:Trade License Branch,DEPT_LG:Legal Branch,AGENDA_BRANCH:Agenda Branch,CARETAKER_BRANCH:Caretaker Branch,IT_BRANCH:IT Branch,DEPT_TP:Townplanning,DEPT_57:Tender Cell'
+        source: asset
+        wrapper: true
+        isMandatory: false
+        searchClause: AND a.department = $Department
     query: >
       SELECT 
         a.applicationno as assetid,
-        a.name AS assetname,
+        INITCAP(a.name) AS assetname,
         a.category AS category,
         CONCAT(
             COALESCE(addr.addressline1, ''), ' ', 
@@ -1348,7 +1441,8 @@ ReportDefinitions:
         a.additionaldetails->>'marketRateEvaluation' AS marketrateevaluation,
         a.lifeofasset AS lifeofasset,
         a.sourceoffinance AS sourceoffinance,
-        a.originalbookvalue AS originalbookvalue
+        a.originalbookvalue AS originalbookvalue,
+        CONCAT('COMMON_MASTERS_DEPARTMENT_', a.department) AS department
       FROM 
         eg_asset_assetdetails a
       LEFT JOIN 
