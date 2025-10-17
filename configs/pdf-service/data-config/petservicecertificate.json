@@ -262,6 +262,17 @@
       }
     }  
         ]
+      },
+      "type": "date",
+      "format": "DD/MM/YYYY"
+    },
+     {
+      "variable": "petPhotoFileStoreId",
+      "value": {
+        "path": "$.documents[?(@.documentType=='PET.PETPHOTO')].filestoreId"
+      }        
+    }           
+          ]
         },
         {
           "externalAPI": [     
@@ -324,10 +335,12 @@
         {
           "path": "http://egov-filestore:8080/filestore/v1/files/url",
           "queryParam": "tenantId=pg&fileStoreIds=$.documents[?(@.documentType=='PET.PETPHOTO')].filestoreId",
+          "queryParam": "tenantId=pg&fileStoreIds=$.documents[?(@.documentType=='PET.PETPHOTO')].filestoreId",
           "apiRequest": null,
           "requesttype": "GET",
           "responseMapping": [
             {
+              "variable": "petphoto",
               "variable": "petphoto",
               "value": "$.fileStoreIds[0].url",
               "type": "image"
