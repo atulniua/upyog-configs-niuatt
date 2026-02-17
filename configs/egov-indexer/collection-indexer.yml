@@ -2,7 +2,7 @@ ServiceMaps:
  serviceName: Collection Services
  version: 1.0.0
  mappings:
-  - topic: egov.collection.receipt-create
+  - topic: egov.collection.receipt-create-v2
     configKey: INDEX
     indexes:
     - name: collectionsindex-v1
