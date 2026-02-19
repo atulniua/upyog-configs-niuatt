@@ -2656,6 +2656,39 @@
                   "headers": []
                 }
               ]
+            },
+            {
+              "id": 153,
+              "name": "DSS_STREET_VENDING_MODULE",
+              "vizType": "module",
+              "moduleLevel": "STREET_VENDING",
+              "type": "",
+              "noUnit": false,
+              "isCollapsible": false,
+              "ref": {
+                "url": "streetVending",
+                "logoUrl": "",
+                "type": "internal"
+              },
+              "label": "",
+              "charts": [
+                {
+                  "id": "todaysCollection",
+                  "name": "SD_SV_TOTAL_COLLECTION",
+                  "code": "",
+                  "chartType": "metric",
+                  "filter": "",
+                  "headers": []
+                },
+                {
+                  "id": "dssTotalApplicationOverview",
+                  "name": "SD_SV_TOTAL_APPLICATION_CREATED",
+                  "code": "",
+                  "chartType": "metric",
+                  "filter": "",
+                  "headers": []
+                }
+              ]
             }
           ]
         }
