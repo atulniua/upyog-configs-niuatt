@@ -129,6 +129,13 @@
         "requestQueryMap": "{\"wardId\" : \"domainObject.ward.name.keyword\",\"module\" : \"dataObject.paymentDetails.businessService.keyword\", \"tenantId\" : \"dataObject.tenantId.keyword\"}",
         "indexName": "dss-collection_v2",
         "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must_not\":[{\"term\":{\"dataObject.tenantId.keyword\":\"pg.testing\"}},{\"terms\":{\"dataObject.paymentDetails.bill.status.keyword\":[\"Cancelled\"]}}],\"must\":[{\"terms\":{\"dataObject.paymentDetails.businessService.keyword\":[\"BIRTH_CERT\",\"DEATH_CERT\"]}},{\"range\":{\"dataObject.paymentDetails.receiptDate\":{\"gte\":\"now-1d\",\"lte\":\"now\"}}}]}},\"aggs\":{\"Total Collection\":{\"sum\":{\"field\":\"dataObject.paymentDetails.bill.billDetails.amountPaid\"}}}}}}"
+      },
+      {
+        "module": "STREET_VENDING",
+        "dateRefField": "dataObject.paymentDetails.receiptDate",
+        "requestQueryMap": "{\"wardId\" : \"dataObject.ward.name.keyword\",\"module\" : \"dataObject.paymentDetails.businessService.keyword\", \"tenantId\" : \"dataObject.tenantId\", \"district\" : \"dataObject.tenantData.city.districtCode\"}",
+        "indexName": "dss-collection_v2",
+        "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must_not\":[{\"term\":{\"dataObject.tenantId.keyword\":\"pg.testing\"}},{\"terms\":{\"dataObject.paymentDetails.bill.status.keyword\":[\"Cancelled\"]}}],\"must\":[{\"term\":{\"dataObject.paymentDetails.businessService.keyword\":\"sv-services\"}}]}},\"aggs\":{\"Total Collection\":{\"sum\":{\"field\":\"dataObject.paymentDetails.totalAmountPaid\"}}}}}}"
       }
     ],
     "chartType": "metric",
@@ -685,6 +692,13 @@
         "requestQueryMap": "{\"wardId\" : \"ward\", \"district\" : \"district\", \"tenantId\" : \"ulb\"}",
         "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must_not\":[{\"term\":{\"state.keyword\":\"pg.testing\"}}]}},\"aggs\":{\"Total Collection\":{\"sum\":{\"field\":\"financeTotalIncome\"}}}}}}",
         "dateRefField": "timestamp"
+      },
+      {
+        "module": "STREET_VENDING",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"wardId\" : \"Data.addressDetails.locality.keyword\", \"tenantId\" : \"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must_not\":[{\"term\":{\"Data.tenantId.keyword\":\"pg.testing\"}}]}},\"aggs\":{\"Total Application\":{\"value_count\":{\"field\":\"Data.applicationId.keyword\"}}}}}}"
       }
     ],
     "chartType": "metric",
@@ -24303,6 +24317,37 @@
     "insight": {},
     "_comment": "SV total registered vendors"
   },
+
+  "svTotalApplicationApproved": {
+    "chartName": "SD_SV_TOTAL_APPROVED",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"wardId\":\"Data.addressDetails.locality.keyword\", \"tenantId\":\"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must_not\":[{\"term\":{\"Data.tenantId.keyword\":\"pg.testing\"}}],\"must\":[{\"term\":{\"Data.applicationStatus.keyword\":\"APPROVED\"}}]}},\"aggs\":{\"Total Approved\":{\"value_count\":{\"field\":\"Data.applicationId.keyword\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "number",
+    "aggregationPaths": ["Total Application Approved"]
+  },
+  "svTotalVendorRegistered": {
+    "chartName": "SD_SV_TOTAL_REGISTERED",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"wardId\":\"Data.addressDetails.locality.keyword\", \"tenantId\":\"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must\":[{\"term\":{\"Data.applicationStatus.keyword\":\"REGISTRATIONCOMPLETED\"}}]}},\"aggs\":{\"Total Vendors\":{\"value_count\":{\"field\":\"Data.applicationId.keyword\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "number",
+    "aggregationPaths": ["Total Vendors"]
+  },
   "svTotalLicensesIssued": {
     "chartName": "DSS_SV_TOTAL_LICENSES_ISSUED",
     "queries": [
@@ -24379,6 +24424,38 @@
     },
     "_comment": "SV revenue collection with target"
   },
+
+  "svStateDashboardTotalCollection": {
+    "chartName": "SD_SV_TOTAL_COLLECTION",
+    "queries": [
+      {
+        "module": "SV",
+        "dateRefField": "dataObject.paymentDetails.receiptDate",
+        "requestQueryMap": "{\"wardId\" : \"dataObject.ward.name.keyword\",\"module\" : \"dataObject.paymentDetails.businessService.keyword\", \"tenantId\" : \"dataObject.tenantId\", \"district\" : \"dataObject.tenantData.city.districtCode\"}",
+        "indexName": "dss-collection_v2",
+        "aggrQuery": "{\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{\"must_not\":[{\"term\":{\"dataObject.tenantId.keyword\":\"pg.testing\"}},{\"terms\":{\"dataObject.paymentDetails.bill.status.keyword\":[\"Cancelled\"]}}],\"must\":[{\"term\":{\"dataObject.paymentDetails.businessService.keyword\":\"sv-services\"}}]}},\"aggs\":{\"Total Collection\":{\"sum\":{\"field\":\"dataObject.paymentDetails.totalAmountPaid\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "Amount",
+    "drillChart": "none",
+    "documentType": "_doc",
+    "action": "",
+    "aggregationPaths": [
+      "Total Collection"
+    ],
+    "insight": {
+      "chartResponseMap": "svtotalCollection",
+      "action": "differenceOfNumbers",
+      "upwardIndicator": "positive",
+      "downwardIndicator": "negative",
+      "textMessage": "$indicator$value% than last $insightInterval",
+      "colorCode": "#228B22",
+      "insightInterval": "year",
+      "isRoundOff": true
+    },
+    "_comment": "SV revenue collection with target"
+  },
   "svTotalCollectionForLines": {
     "chartName": "NATIONAL_DSS_TOTAL_COLLECTION_SV_FOR_LINES",
     "queries": [
@@ -24402,6 +24479,23 @@
     "interval": "month",
     "insight": {},
     "_comment": "SV Total Cumulative Collection over months"
+  },
+  "svStateDashboardTotalCollectionForLines": {
+    "chartName": "STATE_DSS_TOTAL_COLLECTION_SV_FOR_LINES",
+    "queries": [
+      {
+        "module": "SV",
+        "dateRefField": "dataObject.paymentDetails.receiptDate",
+        "requestQueryMap": "{\"tenantId\" : \"dataObject.tenantId.keyword\",\"module\" : \"dataObject.paymentDetails.businessService.keyword\"}",
+        "indexName": "dss-collection_v2",
+        "aggrQuery": "{\"aggs\":{\"Collections\":{\"filter\":{\"bool\":{\"must\":[{\"term\":{\"dataObject.paymentDetails.businessService.keyword\":\"sv-services\"}}],\"must_not\":[{\"terms\":{\"dataObject.paymentDetails.bill.status.keyword\":[\"Cancelled\"]}}]}},\"aggs\":{\"Collections\":{\"date_histogram\":{\"field\":\"dataObject.paymentDetails.receiptDate\",\"calendar_interval\":\"month\"},\"aggs\":{\"Sum\":{\"sum\":{\"field\":\"dataObject.paymentDetails.totalAmountPaid\"}}}}}}}}"
+      }
+    ],
+    "chartType": "line",
+    "valueType": "amount",
+    "aggregationPaths": ["Collections"],
+    "isCumulative": true,
+    "interval": "month"
   },
   "svTotalLicensesApplied": {
     "chartName": "DSS_SV_TOTAL_LICENSES_APPLIED",

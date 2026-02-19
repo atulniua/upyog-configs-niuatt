@@ -107,6 +107,10 @@
         {
           "name": "National Street Vending",
           "id": "national-sv"
+        },
+        {
+          "name": "Street Vending",
+          "id": "streetVending"
         }
       ]
     },
