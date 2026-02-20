@@ -11611,6 +11611,85 @@
           ]
         }
       ]
+    },
+    {
+      "name": "DSS_SV_DASHBOARD",
+      "id": "streetVending",
+      "isActive": "",
+      "style": "linear",
+      "visualizations": [
+        {
+          "row": 1,
+          "name": "DSS_REVENUE",
+          "vizArray": [
+            {
+              "id": 500,
+              "name": "DSS_OVERVIEW",
+              "dimensions": {
+                "height": 350,
+                "width": 5
+              },
+              "vizType": "metric-collection",
+              "noUnit": true,
+              "isCollapsible": false,
+              "label": "DSS_OVERVIEW",
+              "charts": [
+                {
+                  "id": "dssSvTotalCollection",
+                  "name": "DSS_SV_SD_TOTAL_COLLECTION",
+                  "code": "",
+                  "chartType": "metric",
+                  "filter": "",
+                  "headers": []
+                },
+                {
+                  "id": "dssStreetVendingTotalApplication",
+                  "name": "DSS_SV_SD_TOTAL_APPLICATION",
+                  "code": "",
+                  "chartType": "metric",
+                  "filter": "",
+                  "headers": []
+                },
+                {
+                  "id": "dssStreetVendingTotalApproved",
+                  "name": "DSS_SV_SD_TOTAL_APPROVED",
+                  "code": "",
+                  "chartType": "metric",
+                  "filter": "",
+                  "headers": []
+                },
+                {
+                  "id": "dssStreetVendingTotalRegistered",
+                  "name": "DSS_SV_SD_TOTAL_REGISTERED",
+                  "code": "",
+                  "chartType": "metric",
+                  "filter": "",
+                  "headers": []
+                }
+              ]
+            },
+            {
+              "id": 501,
+              "name": "DSS_SV_SD_APPLICATION_STATUS",
+              "dimensions": {
+                "height": 250,
+                "width": 4
+              },
+              "vizType": "chart",
+              "isCollapsible": false,
+              "charts": [
+                {
+                  "id": "dssStreetVendingApplicationStatusPie",
+                  "name": "DSS_SV_APPLICATION_STATUSES",
+                  "chartType": "donut",
+                  "filter": "",
+                  "headers": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
