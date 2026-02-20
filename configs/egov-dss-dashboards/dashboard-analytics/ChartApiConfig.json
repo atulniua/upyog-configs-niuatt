@@ -24317,6 +24317,111 @@
     "insight": {},
     "_comment": "SV total registered vendors"
   },
+  "dssStreetVendingTotalApplication": {
+    "chartName": "DSS_SV_SD_TOTAL_APPLICATION",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"tenantId\":\"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"size\":0,\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{}},\"aggs\":{\"Total Applications\":{\"cardinality\":{\"field\":\"Data.applicationId.keyword\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "number",
+    "drillChart": "none",
+    "documentType": "_doc",
+    "action": "",
+    "aggregationPaths": ["Total Applications"],
+    "insight": {},
+    "_comment": "SV total applications created"
+  },
+  "dssStreetVendingTotalApproved": {
+    "chartName": "DSS_SV_SD_TOTAL_APPROVED",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"tenantId\":\"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"size\":0,\"aggs\":{\"AGGR\":{\"filter\":{\"term\":{\"Data.applicationStatus.keyword\":\"APPROVED\"}},\"aggs\":{\"Total Approved\":{\"cardinality\":{\"field\":\"Data.applicationId.keyword\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "number",
+    "drillChart": "none",
+    "documentType": "_doc",
+    "action": "",
+    "aggregationPaths": ["Total Approved"],
+    "insight": {},
+    "_comment": "SV total approved applications"
+  },
+  "dssStreetVendingTotalRegistered": {
+    "chartName": "DSS_SV_SD_TOTAL_REGISTERED",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"tenantId\":\"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"size\":0,\"aggs\":{\"AGGR\":{\"filter\":{\"term\":{\"Data.applicationStatus.keyword\":\"REGISTRATIONCOMPLETED\"}},\"aggs\":{\"Total Registered\":{\"cardinality\":{\"field\":\"Data.applicationId.keyword\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "number",
+    "drillChart": "none",
+    "documentType": "_doc",
+    "action": "",
+    "aggregationPaths": ["Total Registered"],
+    "insight": {},
+    "_comment": "SV total successfully registered vendors (post payment)"
+  },
+  "dssStreetVendingApplicationStatusPie": {
+    "chartName": "DSS_SV_SD_APPLICATION_STATUS",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "street-vending",
+        "requestQueryMap": "{\"tenantId\":\"Data.tenantId.keyword\"}",
+        "dateRefField": "Data.@timestamp",
+        "aggrQuery": "{\"size\":0,\"aggs\":{\"AGGR\":{\"filter\":{\"bool\":{}},\"aggs\":{\"APPLIED\":{\"filter\":{\"term\":{\"Data.applicationStatus.keyword\":\"APPLIED\"}}},\"APPROVED\":{\"filter\":{\"term\":{\"Data.applicationStatus.keyword\":\"APPROVED\"}}},\"REJECTED\":{\"filter\":{\"term\":{\"Data.applicationStatus.keyword\":\"REJECTED\"}}},\"REGISTRATIONCOMPLETED\":{\"filter\":{\"term\":{\"Data.applicationStatus.keyword\":\"REGISTRATIONCOMPLETED\"}}}}}}}"
+      }
+    ],
+    "chartType": "pie",
+    "valueType": "number",
+    "drillChart": "none",
+    "documentType": "_doc",
+    "action": "",
+    "aggregationPaths": [
+      "APPLIED",
+      "APPROVED",
+      "REJECTED",
+      "REGISTRATIONCOMPLETED"
+    ],
+    "insight": {},
+    "_comment": "SV application status distribution"
+  },
+  "dssSvTotalCollection": {
+    "chartName": "DSS_SV_SD_TOTAL_COLLECTION",
+    "queries": [
+      {
+        "module": "SV",
+        "indexName": "dss-collection_v2",
+        "requestQueryMap": "{\"tenantId\":\"dataObject.tenantId.keyword\"}",
+        "dateRefField": "dataObject.paymentDetails.receiptDate",
+        "aggrQuery": "{\"size\":0,\"aggs\":{\"AGGR\":{\"filter\":{\"term\":{\"dataObject.paymentDetails.businessService.keyword\":\"sv-services\"}},\"aggs\":{\"Total Collection\":{\"sum\":{\"field\":\"dataObject.paymentDetails.totalAmountPaid\"}}}}}}"
+      }
+    ],
+    "chartType": "metric",
+    "valueType": "number",
+    "drillChart": "none",
+    "documentType": "_doc",
+    "action": "",
+    "aggregationPaths": ["Total Collection"],
+    "insight": {},
+    "_comment": "SV total collection amount"
+  },
 
   "svTotalApplicationApproved": {
     "chartName": "SD_SV_TOTAL_APPROVED",
