@@ -68,7 +68,7 @@ ReportDefinitions:
       b.createdtime as createdtime,
       b.booking_no as booking_no,
       p.amountpaid as amountpaid,
-      h.booking_date as booking_date,
+      to_char(h.booking_date,'DD-MM-YYYY') as booking_date,
       h.status as status
       from eg_chb_applicant_detail a, eg_chb_booking_detail b, egcl_paymentdetail p, eg_chb_slot_detail h
       where a.booking_id=b.booking_id and b.receipt_no=p.receiptnumber and b.booking_id=h.booking_id
@@ -141,7 +141,7 @@ ReportDefinitions:
       b.createdtime as createdtime,
       b.booking_no as booking_no,
       p.amountpaid as amountpaid,
-      h.booking_date as booking_date,
+      to_char(h.booking_date,'DD-MM-YYYY') as booking_date,
       h.status as status
       from eg_chb_applicant_detail a, eg_chb_booking_detail b, egcl_paymentdetail p, eg_chb_slot_detail h
       where a.booking_id=b.booking_id and b.receipt_no=p.receiptnumber and b.booking_id=h.booking_id and h.status='REFUNDAPPROVED'
