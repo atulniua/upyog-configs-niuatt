@@ -42,11 +42,6 @@ ReportDefinitions:
         type: string
         source: CHB
         total: false  
-      - name: createdtime
-        label: raimaker.CHB.createdtime
-        type: string
-        source: CHB
-        showColumn: false
     searchParams:
       - name: booking_no
         label: rainmaker.CHB.booking_no
@@ -120,11 +115,6 @@ ReportDefinitions:
         type: string
         source: CHB
         total: false  
-      - name: createdtime
-        label: rainmaker.CHB.createdtime
-        type: string
-        source: CHB
-        showColumn: false
     searchParams:
       - name: booking_no
         label: rainmaker.CHB.booking_no
