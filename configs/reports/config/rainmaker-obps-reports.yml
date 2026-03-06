@@ -38,11 +38,6 @@ ReportDefinitions:
         type: string
         source: obps
         total: false
-      - name: uuid
-        label: report.obps.uuid
-        type: string
-        source: opbs
-        showColumn: false
       - name: instrumenttype
         label: report.obps.instrumenttype
         type: string
@@ -146,11 +141,6 @@ ReportDefinitions:
         total: false
         isLocalisationRequired: true
         localisationPrefix: WF_BPA_
-      - name: uuid
-        label: reports.obps.uuid
-        type: string
-        source: obps
-        showColumn: false
       - name: name
         label: reports.obps.name
         type: string
