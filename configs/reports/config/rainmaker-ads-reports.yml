@@ -27,12 +27,6 @@ ReportDefinitions:
     source: ads
     total: false
     isLocalisationRequired: true
-  - name: createdtime
-    label: rainmaker.ads.createdtime
-    type: string
-    source: ads
-    total: false
-    showColumn: false
   - name: name
     label: rainmaker.ads.name
     type: string
