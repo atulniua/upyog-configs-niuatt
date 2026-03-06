@@ -91,11 +91,6 @@ ReportDefinitions:
     type: string
     source: tl
     total: true
-  - name: uuid
-    label: report.tl.uuid
-    type: string
-    source: tl
-    showColumn: false
   searchParams:
   - name: fromDate
     label: reports.tl.fromDate
@@ -244,11 +239,6 @@ ReportDefinitions:
     type: number
     source: tl
     total: true
-  - name: uuid
-    label: report.tl.uuid
-    type: string
-    source: tl
-    showColumn: false
   searchParams:
   - name: fromDate
     label: reports.tl.fromDate
@@ -695,11 +685,6 @@ ReportDefinitions:
     type: number
     source: tl
     total: true
-  - name: uuid
-    label: report.tl.uuid
-    type: string
-    source: tl
-    showColumn: false
   searchParams:
   - name: fromDate
     label: From Date
@@ -797,11 +782,6 @@ ReportDefinitions:
     source: tl
     total: false
     isLocalisationRequired: true
-  - name: uuid
-    label: report.tl.uuid
-    type: string
-    source: tl
-    showColumn: false
   searchParams:
   - name: fromDate
     label: FromDate
@@ -1043,11 +1023,6 @@ ReportDefinitions:
     type: string
     source: tl
     total: false
-  - name: uuid
-    label: report.tl.uuid
-    type: string
-    source: tl
-    showColumn: false
   searchParams:
   - name: fromDate
     label: FromDate
@@ -1139,11 +1114,6 @@ ReportDefinitions:
     source: tl
     isLocalisationRequired: true
     total: false
-  - name: uuid
-    label: report.tl.uuid
-    type: string
-    source: tl
-    showColumn: false
   searchParams:
   - name: fromDate
     label: FromDate
