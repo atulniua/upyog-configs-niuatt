@@ -19,12 +19,7 @@ ReportDefinitions:
     label: reports.pt.consumername
     type: string
     source: pt
-    total: false
-  - name: user_uuid
-    label: reports.pt.user_uuid
-    type: string
-    source: pt
-    showColumn: false 
+    total: false 
   - name: amountCollected
     label: reports.pt.amountCollected
     type: string
