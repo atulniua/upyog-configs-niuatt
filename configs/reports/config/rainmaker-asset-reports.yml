@@ -50,11 +50,6 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-      - name: createdtime
-        label: Created Time
-        type: string
-        source: asset
-        showColumn: false
     searchParams:
       - name: applicationno
         label: Asset Unique ID
@@ -183,11 +178,6 @@ ReportDefinitions:
         type: string
         source: asset
         total: false
-      - name: createdtime
-        label: Created Time
-        type: string
-        source: asset
-        showColumn: false
     searchParams:
       - name: applicationno
         label: Asset Unique ID
@@ -626,12 +616,7 @@ ReportDefinitions:
         label: Parts Added or Replaced
         type: string
         source: asset
-        total: false
-      - name: created_time
-        label: Created Time
-        type: epoch
-        source: asset
-        total: false               
+        total: false             
     searchParams:
       - name: applicationno
         label: Asset Unique ID
