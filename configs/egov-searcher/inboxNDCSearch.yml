@@ -22,7 +22,7 @@ SearchDefinitions:
                pi.lastmodifiedby AS wf_lastmodifiedby,
                assg.assignee AS wf_assignee
              FROM eg_ndc_application a
-             INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno AND pi.latest = TRUE
+             INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno
              INNER JOIN eg_ndc_owner ownerinfo ON ownerinfo.ndcapplicationuuid = a.uuid
              LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
              $where
@@ -80,7 +80,7 @@ SearchDefinitions:
           SELECT row_to_json(t) from (
           SELECT COUNT(DISTINCT a.uuid) AS count
            FROM eg_ndc_application a
-           INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno AND pi.latest = TRUE
+           INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno
            LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
            $where
            )t
@@ -143,7 +143,7 @@ SearchDefinitions:
                pi.status AS wf_status,
                assg.assignee AS wf_assignee
              FROM eg_ndc_application a
-             INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno AND pi.latest = TRUE
+             INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno
              INNER JOIN eg_ndc_owner ownerinfo ON ownerinfo.ndcapplicationuuid = a.uuid
              LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
              $where
@@ -216,7 +216,7 @@ SearchDefinitions:
               pi.lastmodifiedby AS wf_lastmodifiedby,
               assg.assignee AS wf_assignee
             FROM eg_ndc_application a
-            INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno AND pi.latest = TRUE
+            INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno
             LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
             $where
             ORDER BY a_createdtime DESC
