@@ -26,8 +26,8 @@ SearchDefinitions:
              INNER JOIN eg_ndc_owner ownerinfo ON ownerinfo.ndcapplicationuuid = a.uuid
              LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
              $where
-             ORDER BY a_createdtime ASC
-             $pagination
+             AND pi.createdtime IN (select max(createdtime) from eg_wf_processinstance_v2 wf where wf.businessid = a.applicationno GROUP BY wf.businessid)
+             order by a.createdtime asc $pagination
            ) result
       searchParams:
         condition: AND
@@ -83,6 +83,8 @@ SearchDefinitions:
            INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno
            LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
            $where
+           AND pi.createdtime IN (select max(createdtime) from eg_wf_processinstance_v2 wf where wf.businessid = a.applicationno GROUP BY wf.businessid)
+           order by a.createdtime asc
            )t
       searchParams:
         condition: AND
@@ -147,8 +149,8 @@ SearchDefinitions:
              INNER JOIN eg_ndc_owner ownerinfo ON ownerinfo.ndcapplicationuuid = a.uuid
              LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
              $where
-             ORDER BY a_createdtime DESC
-             $pagination
+             AND pi.createdtime IN (select max(createdtime) from eg_wf_processinstance_v2 wf where wf.businessid = a.applicationno GROUP BY wf.businessid)
+             order by a.createdtime desc $pagination
            ) result
       searchParams:
         condition: AND
@@ -219,7 +221,8 @@ SearchDefinitions:
             INNER JOIN eg_wf_processinstance_v2 pi ON pi.businessid = a.applicationno
             LEFT JOIN eg_wf_assignee_v2 assg ON pi.id = assg.processinstanceid
             $where
-            ORDER BY a_createdtime DESC
+            AND pi.createdtime IN (select max(createdtime) from eg_wf_processinstance_v2 wf where wf.businessid = a.applicationno GROUP BY wf.businessid)
+            order by a.createdtime desc
           ) result
       searchParams:
         condition: AND
