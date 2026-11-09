@@ -22,3 +22,7 @@ rainmaker-mt=file:///work-dir/upyog-configs/configs/reports/config/rainmaker-mt-
 rainmaker-tp=file:///work-dir/upyog-configs/configs/reports/config/rainmaker-tp-reports.yml
 rainmaker-wt=file:///work-dir/upyog-configs/configs/reports/config/rainmaker-wt-reports.yml
 rainmaker-ew=file:///work-dir/upyog-configs/configs/reports/config/rainmaker-ew-reports.yml
+rainmaker-ndc=file:///work-dir/upyog-configs/configs/reports/config/ndc-reports.yml
+rainmaker-ch=file:///work-dir/upyog-configs/configs/reports/config/challan-reports.yml
+rainmaker-gc=file:///work-dir/upyog-configs/configs/reports/config/rainmaker-garbage-reports.yml
+rainmaker-em=file:///work-dir/upyog-configs/configs/reports/config/rainmaker-estate-report.yml

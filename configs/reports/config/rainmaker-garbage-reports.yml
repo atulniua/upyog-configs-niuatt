@@ -1,0 +1,89 @@
+ReportDefinitions:
+- reportName: GarbageApplicationReport
+  summary: Garbage Application Report
+  version: 1.0.0
+  moduleName: rainmaker-gc
+  additionalConfig:
+      print:
+        pdfPageSize: A1
+  sourceColumns:
+  - name: tenant_id
+    label: Tenant ID
+    type: string
+    source: garbage
+    total: false
+  - name: application_no
+    label: Application No.
+    type: string
+    source: garbage
+    total: false
+  - name: status
+    label: Status
+    type: string
+    source: garbage
+    total: false
+    isLocalisationRequired: true
+  - name: name
+    label: name
+    type: string
+    source: garbage
+    total: false
+  - name: mobilenumber
+    label: mobilenumber
+    type: string
+    source: garbage
+    total: false
+  - name: gender
+    label: Gender
+    type: string
+    source: garbage
+    total: false
+    isLocalisationRequired: true
+  - name: business_service
+    label: Business_service
+    type: string
+    source: garbage
+    total: false
+  - name: is_active
+    label: Active
+    type: string
+    source: garbage
+    total: false
+  - name: due_date
+    label: reports.garbage.due_date
+    type: string
+    source: garbage
+    total: false
+  searchParams:
+    - name: fromDate
+      label: From Date
+      type: epoch
+      source: garbage
+      isMandatory: false
+      searchClause: AND a.createdtime>= $fromDate
+    - name: toDate
+      label: To Date
+      type: epoch
+      source: garbage
+      isMandatory: false
+      searchClause: AND a.createdtime <= $toDate
+    - name: status
+      label: Status
+      type: singlevaluelist
+      pattern: list://PENDING_FOR_PAYMENT:Pending for Payment,EDIT_APPLICATION:Edit Application,REJECTED:Rejected,APPROVED:Approved,PAID:Paid,PENDING_FOR_APPROVAL:Pending for Approval,INITIATED:Initiated
+      source: garbage
+      isMandatory: false
+      searchClause: AND a.status = $status
+  query: |
+    select
+    ac.tenant_id,
+    a.application_no,
+    a.status,
+    ac.name as name,
+    ac.mobile_number as mobilenumber,
+    ac.gender,
+    ac.business_service,
+    ac.is_active,
+    ac.due_date
+    from ug_grbg_application a, ug_grbg_account ac
+    where a.garbage_id = ac.garbage_id

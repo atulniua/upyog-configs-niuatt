@@ -1,0 +1,111 @@
+ReportDefinitions:
+- reportName: EstateApplicationReport
+  summary: Estate Application Report
+  version: 1.0.0
+  moduleName: rainmaker-em
+  additionalConfig:
+      print:
+        pdfPageSize: A1
+  sourceColumns:
+  - name: tenant_id
+    label: Tenant ID
+    type: string
+    source: estate
+    total: false
+  - name: estate_no
+    label: Estate No.
+    type: string
+    source: estate
+    total: false
+  - name: asset_status
+    label: Asset Status
+    type: string
+    source: estate
+    total: false
+    isLocalisationRequired: true
+  - name: address
+    label: Address
+    type: string
+    source: estate
+    total: false
+  - name: total_floor_area
+    label: Total Floor Area
+    type: string
+    source: estate
+    total: false
+  - name: dimension_length
+    label: Dimension Length
+    type: string
+    source: estate
+    total: false
+  - name: dimension_width
+    label: Dimension Width
+    type: string
+    source: estate
+    total: false
+  - name: rent_rate
+    label: Rent Rate
+    type: string
+    source: estate
+    total: false
+  - name: building_name
+    label: Building Name
+    type: string
+    source: estate
+    total: false
+  - name: classification
+    label: Classification
+    type: string
+    source: estate
+    total: false
+  - name: parent_category
+    label: Parent Category
+    type: string
+    source: estate
+    total: false
+  - name: asset_allotment_type
+    label: Asset Allotment Type
+    type: string
+    source: estate
+    total: false
+  - name: asset_allotment_status
+    label: Asset Allotment Status
+    type: string
+    source: estate
+    total: false
+  searchParams:
+    - name: fromDate
+      label: From Date
+      type: epoch
+      source: estate
+      isMandatory: false
+      searchClause: AND e.createdtime >= $fromDate
+    - name: toDate
+      label: To Date
+      type: epoch
+      source: estate
+      isMandatory: false
+      searchClause: AND e.createdtime <= $toDate
+    - name: asset_status
+      label: Status
+      type: singlevaluelist
+      pattern: list://active:Active,inactive:Inactive
+      source: estate
+      isMandatory: false
+      searchClause: AND e.asset_status = $asset_status
+  query: |
+    select e.tenant_id,
+    e.estate_no,
+    e.asset_status,
+    concat('floor: ', e.floor, ' Building No.: ', e.building_no, ' Building Name: ', e.building_name, ' Locality: ', e.locality) as address,
+    e.total_floor_area,
+    e.dimension_length,
+    e.dimension_width,
+    e.rent_rate,
+    e.name as building_name,
+    e.classification,
+    e.parent_category,
+    e.asset_allotment_type,
+    e.asset_allotment_status
+    from ug_em_asset_details e
+    where 1=1
